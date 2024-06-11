@@ -1,4 +1,10 @@
 #!/bin/bash
+# Checks to verify that the script is running as sudo
+if [[ $EUID -ne 0 ]]; then
+   echo "THIS SCRIPT NEEDS TO BE RUN AS SUDO."
+   echo "EX: sudo bash rpi-ap/rpi-ap.sh"
+   exit 1
+fi
 echo "##############################"
 echo "APPLYING UPDATES"
 apt update -y 
