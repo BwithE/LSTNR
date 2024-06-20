@@ -1,5 +1,5 @@
 # deathstar
-Build and understanding c2 infrastructure
+Build and understand c2 infrastructure
 
 ![dstar](https://github.com/BwithE/deathstar/assets/144924113/43bdc40d-b4d1-49ad-809a-173be015ebaf)
 
