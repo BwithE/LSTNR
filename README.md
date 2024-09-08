@@ -26,5 +26,8 @@ Linux / MacOS
 On the webpage, type the IP of the listening device, and then click forward.
 
 # Catch the connection
-Once you've caught the connection
+Once you've caught the connection, begin setting up persistence.
+
+
+Wash, rince, repeat.
 
