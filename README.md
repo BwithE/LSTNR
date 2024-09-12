@@ -40,6 +40,16 @@ or
 # Forward the connection to another listener
 On the webpage, type the IP of the listening device, and then click forward.
 
+or
+
+On the terminal, list the connections.
+
+Select `2)` to forward.
+
+Specify the `ID` of the `VICTIM` you'd like to forward.
+
+Then, type the IP of your `LISTENING` device.
+
 # Catch the connection
 Once you've caught the connection, begin setting up persistence.
 
