@@ -1,6 +1,8 @@
 # deathstar
 Build and understand C2 infrastructure.
+
 "Deathstar" has a webpage, or a terminal based C2 connection manager.
+
 "Stardestroyer.py" is one option of calling into the C2 server.
 
 
