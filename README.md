@@ -8,7 +8,11 @@ Build and understand c2 infrastructure
 ```git clone github.com/bwithe/deathstar```
 
 # Start C2
-`python3 deathstar.py`
+`python3 deathstar-web.py`
+
+or 
+
+`python3 deathstar-term.py`
 
 # Open link in web browser
 
@@ -28,6 +32,5 @@ On the webpage, type the IP of the listening device, and then click forward.
 # Catch the connection
 Once you've caught the connection, begin setting up persistence.
 
-
-Wash, rince, repeat.
+# Wash, rince, repeat.
 
