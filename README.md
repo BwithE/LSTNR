@@ -9,6 +9,8 @@ Build and understand C2 infrastructure.
 
 
 ![image](https://github.com/user-attachments/assets/2276420d-6134-48a0-8e2e-5e6a0ddef95b)
+![image](https://github.com/user-attachments/assets/e574c863-f44f-47fb-ad8a-7c3148b247e2)
+
 
 
 # Download deathstar
