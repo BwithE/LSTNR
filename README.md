@@ -8,7 +8,8 @@ Build and understand C2 infrastructure.
 `compiler.sh` will compile `stardestroyer.py` into an EXE.
 
 
-![screen](https://github.com/user-attachments/assets/7de184fa-cd0b-4cbf-b701-9f505a77cb2a)
+![image](https://github.com/user-attachments/assets/2276420d-6134-48a0-8e2e-5e6a0ddef95b)
+
 
 # Download deathstar
 
