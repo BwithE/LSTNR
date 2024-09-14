@@ -17,16 +17,19 @@ Build and understand C2 infrastructure.
 
 ```git clone github.com/bwithe/deathstar```
 
-# Start C2
+# Start Web C2 server 
 `python3 deathstar-web.py`
 
-OR 
-
-`python3 deathstar-term.py`
-
-# Open link in web browser
+1. Open link in web browser
 
 ```firefox 127.0.0.1:5000```
+
+
+
+# Start CLI C2 server
+`python3 deathstar-term.py`
+
+
 
 # Have Victim connect to C2 
 Linux / MacOS
