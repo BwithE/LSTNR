@@ -17,8 +17,9 @@ Build and understand C2 infrastructure.
 
 ```git clone github.com/bwithe/deathstar```
 
-# Start Web C2 server 
-`python3 deathstar-web.py`
+# Web C2 server 
+1. Start the server
+  - `python3 deathstar-web.py`
 
 1. Open link in web browser
 
