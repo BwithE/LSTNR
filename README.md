@@ -3,9 +3,9 @@ Build and understand C2 infrastructure.
 
 `Deathstar` has a webpage, or a CLI based C2 connection manager.
 
-`stardestroyer.py` is the "preffered" options to connecting to the C2 server.
+`stardestroyer.py` is the "preffered" option to connecting to the C2 server.
 
-`compiler.sh` will compile `stardestroyer.py` into an EXE.
+`compiler.sh` will convert `stardestroyer.py` into an EXE.
 
 # Web based C2
 ![image](https://github.com/user-attachments/assets/2276420d-6134-48a0-8e2e-5e6a0ddef95b)
