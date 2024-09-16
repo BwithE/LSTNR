@@ -49,7 +49,7 @@ Build and understand C2 infrastructure.
 4. Start your listener 
     - `nc -nvlp 4444`
 5. Forward the connection to your listener
-    - On the webpage, type the IP of the listening device, and then click forward.
+    - On the webpage, type the IP of the listening device, and select an OS from the drop down, then click forward.
 6. Catch the connection
     - Once you've caught the connection, begin setting up persistence.
 7. Wash, rince, repeat.
