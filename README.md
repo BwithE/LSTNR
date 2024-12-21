@@ -1,11 +1,5 @@
 # deathstar
-Build and understand C2 infrastructure.
-
-`Deathstar` has a webpage, or a CLI based C2 connection manager.
-
-`stardestroyer.py` is the "preffered" option to connecting to the C2 server.
-
-`converter.sh` will convert `stardestroyer.py` into an EXE.
+Building and understand C2 infrastructure.
 
 # Deathstar web page
 <img width="991" alt="Screenshot 2024-12-21 at 12 46 55 AM" src="https://github.com/user-attachments/assets/6a6addfc-2875-47ff-bb39-ac332fa91f11" />
@@ -13,7 +7,6 @@ Build and understand C2 infrastructure.
 # Download deathstar
 
 ```git clone github.com/bwithe/deathstar```
-
 
 # Web C2 server 
 1. Start the server
