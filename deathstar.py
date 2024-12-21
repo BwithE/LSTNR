@@ -28,6 +28,7 @@ class ConnectionInfo:
         self.ip = ip
         self.hostname = hostname
         self.username = username
+        self.os_info = "Unknown"  # Add OS info field
         self.first_connected = timestamp
         self.last_command_time = timestamp
         self.writer = writer
@@ -59,6 +60,14 @@ async def handle_client(reader, writer):
         username = user_data.decode('utf-8', errors='ignore').strip()
         print(f"[DEBUG] Username received: {username}")
         
+        # Get OS info
+        print("[DEBUG] Sending osinfo command")
+        writer.write(b"osinfo\n")
+        await writer.drain()
+        os_data = await reader.read(1024)
+        os_info = os_data.decode('utf-8', errors='ignore').strip()
+        print(f"[DEBUG] OS info received: {os_info}")
+        
         # Create and store connection info
         conn_info = ConnectionInfo(
             ip=client_ip,
@@ -67,6 +76,7 @@ async def handle_client(reader, writer):
             timestamp=datetime.now(),
             writer=writer
         )
+        conn_info.os_info = os_info  # Set OS info
         connections.appendleft(conn_info)
         active_shells[client_ip] = conn_info
         
@@ -466,6 +476,7 @@ async def read_root(request: Request):
                         <th>IP Address</th>
                         <th>Hostname</th>
                         <th>Username</th>
+                        <th>OS Info</th>
                         <th>First Connected</th>
                         <th>Last Command</th>
                         <th>Actions</th>
@@ -480,6 +491,7 @@ async def read_root(request: Request):
                     <td>{conn.ip}</td>
                     <td>{conn.hostname}</td>
                     <td>{conn.username}</td>
+                    <td>{conn.os_info}</td>
                     <td>{conn.first_connected.strftime('%Y-%m-%d %H:%M:%S')}</td>
                     <td>{conn.last_command_time.strftime('%Y-%m-%d %H:%M:%S')}</td>
                     <td>
