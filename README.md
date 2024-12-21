@@ -20,7 +20,8 @@ Build and understand C2 infrastructure.
     - `python3 deathstar.py`
 2. Open link in web browser
     - `firefox 127.0.0.1:8000`
-3. Have CLIENT connect to C2
+3. Modify `client.py` Deathstar IP
+4. Have CLIENT connect to C2
     - Linux / MacOS
       - `python3 client.py`
     - Windows
