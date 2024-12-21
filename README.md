@@ -13,9 +13,12 @@ Remote devices can be managed from the DeathStar webpage.
 # Web C2 server 
 1. Start the server
     - `python3 deathstar.py`
+
 2. Open link in web browser
     - `firefox 127.0.0.1:8000`
-3. Modify `client.py` Deathstar IP
+
+3. Modify `<DEATHSTAR_IP>` in `client.py`
+
 4. Have CLIENT connect to C2
     - Linux / MacOS
       - `python3 client.py`
