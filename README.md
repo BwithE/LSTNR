@@ -4,7 +4,7 @@ Python webserver that receives shell connections from remote devices.
 Remote devices can be managed from the DeathStar webpage.
 
 # Web page
-<img width="991" alt="Screenshot 2024-12-21 at 12 46 55 AM" src="https://github.com/user-attachments/assets/6a6addfc-2875-47ff-bb39-ac332fa91f11" />
+<img width="1162" alt="Screenshot 2024-12-21 at 1 03 20 AM" src="https://github.com/user-attachments/assets/9145dc13-14d0-440c-9d00-9a60f547bbc5" />
 
 # Download DeathStar
 
