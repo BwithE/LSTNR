@@ -1,5 +1,7 @@
 # deathstar
-Building and understand C2 infrastructure.
+Python webserver that receives shell connections from remote devices. 
+
+Remote devices can be managed from the DeathStar webpage.
 
 # Deathstar web page
 <img width="991" alt="Screenshot 2024-12-21 at 12 46 55 AM" src="https://github.com/user-attachments/assets/6a6addfc-2875-47ff-bb39-ac332fa91f11" />
