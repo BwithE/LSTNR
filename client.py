@@ -9,10 +9,10 @@ import argparse
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='LSTNR Client')
-    parser.add_argument('-s', '--server', type=str, default='127.0.0.1',
-                      help='Server IP address (default: 127.0.0.1)')
-    parser.add_argument('-p', '--port', type=int, default=443,
-                      help='Server port (default: 443)')
+    parser.add_argument('-s', '--server', type=str, required=True,
+                      help='Server IP address to connect to')
+    parser.add_argument('-p', '--port', type=int, required=True,
+                      help='Server port to connect to')
     return parser.parse_args()
 
 def execute_command(command):
