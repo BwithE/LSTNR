@@ -1,9 +1,11 @@
 # LSTNR
-Python webserver that receives shell connections from remote devices. 
+Python server that receives shell connections from remote devices. 
 
 Remote devices can be managed from a Command Line Interface (CLI)
 
-Remote devices can be managed from the DeathStar webpage.
+OR
+
+Remote devices can be managed from the LSTNR webpage.
 
 # DISCLAIMER
 This is only for testing purposes, not intended for anything illegal. I was testing out ways to manage multiple connections while doing the OSCP labs. #Hobbies
