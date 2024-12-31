@@ -1,6 +1,8 @@
 # DeathStar
 Python webserver that receives shell connections from remote devices. 
 
+Remote devices can be managed from a Command Line Interface (CLI)
+
 Remote devices can be managed from the DeathStar webpage.
 
 # DISCLAIMER
@@ -20,10 +22,11 @@ This is only for testing purposes, not intended for anything illegal. I was test
 2. Open link in web browser
     - `firefox 127.0.0.1:8000`
 
-3. Modify `<DEATHSTAR_IP>` in `client.py`
+3. Modify `<DEATHSTAR_IP>` in `client.*` scripts
 
 4. Have CLIENT connect to C2
     - Linux / MacOS
       - `python3 client.py`
+      - `bash client.sh`
     - Windows
         - `powershell -bypass client.ps1`
