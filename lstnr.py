@@ -1,11 +1,18 @@
 import asyncio
 import signal
 import sys
+import argparse
 from datetime import datetime
 
 # Global variables to track connections
 current_session = None
 current_writer = None
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='LSTNR - Remote Command & Control')
+    parser.add_argument('-p', '--port', type=int, default=443,
+                      help='Port to listen on (default: 443)')
+    return parser.parse_args()
 
 async def handle_client(reader, writer):
     global current_session, current_writer
@@ -75,24 +82,21 @@ async def handle_client(reader, writer):
         writer.close()
         await writer.wait_closed()
 
-async def start_server():
+async def start_server(port):
     server = await asyncio.start_server(
-        handle_client, '0.0.0.0', 443
+        handle_client, '0.0.0.0', port
     )
     
     print("""
-    ▓█████▄ ▓█████ ▄▄▄     ▄▄▄█████▓ ██░ ██   ██████ ▄▄▄█████▓ ▄▄▄       ██▀███  
-    ▒██▀ ██▌▓█   ▀▒████▄   ▓  ██▒ ▓▒▓██░ ██▒▒██    ▒ ▓  ██▒ ▓▒▒████▄    ▓██ ▒ ██▒
-    ░██   █▌▒███  ▒██  ▀█▄ ▒ ▓██░ ▒░▒██▀▀██░░ ▓██▄   ▒ ▓██░ ▒░▒██  ▀█▄  ▓██ ░▄█ ▒
-    ░▓█▄   ▌▒▓█  ▄░██▄▄▄▄██░ ▓██▓ ░ ░▓█ ░██   ▒   ██▒░ ▓██▓ ░ ░██▄▄▄▄██ ▒██▀▀█▄  
-    ░▒████▓ ░▒████▒▓█   ▓██▒ ▒██▒ ░ ░▓█▒░██▓▒██████▒▒  ▒██▒ ░  ▓█   ▓██▒░██▓ ▒██▒
-     ▒▒▓  ▒ ░░ ▒░ ░▒▒   ▓▒█░ ▒ ░░    ▒ ░░▒░▒▒ ▒▓▒ ▒ ░  ▒ ░░    ▒▒   ▓▒█░░ ▒▓ ░▒▓░
-     ░ ▒  ▒  ░ ░  ░ ▒   ▒▒ ░   ░     ▒ ░▒░ ░░ ░▒  ░ ░    ░      ▒   ▒▒ ░  ░▒ ░ ▒░
-     ░ ░  ░    ░    ░   ▒    ░       ░  ░░ ░░  ░  ░    ░        ░   ▒     ░░   ░ 
-       ░       ░  ░     ░  ░         ░  ░  ░      ░                 ░  ░   ░     
-     ░                                                                            
+    ██╗     ███████╗████████╗███╗   ██╗██████╗ 
+    ██║     ██╔════╝╚══██╔══╝████╗  ██║██╔══██╗
+    ██║     ███████╗   ██║   ██╔██╗ ██║██████╔╝
+    ██║     ╚════██║   ██║   ██║╚██╗██║██╔══██╗
+    ███████╗███████║   ██║   ██║ ╚████║██║  ██║
+    ╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═══╝╚═╝  ╚═╝
+    Remote Command & Control - v1.0
     """)
-    print("[*] DeathStar listener running on port 443")
+    print(f"[*] LSTNR running on port {port}")
     print("[*] Waiting for connections...")
     
     async with server:
@@ -105,5 +109,6 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 if __name__ == "__main__":
+    args = parse_arguments()
     signal.signal(signal.SIGINT, signal_handler)
-    asyncio.run(start_server()) 
+    asyncio.run(start_server(args.port)) 
