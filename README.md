@@ -10,9 +10,6 @@ Remote devices can be managed from the LSTNR webpage.
 # DISCLAIMER
 This is only for testing purposes, not intended for anything illegal. I was testing out ways to manage multiple connections while doing the OSCP labs. #Hobbies
 
-# Web page - obsolete
-<img width="1162" alt="Screenshot 2024-12-21 at 1 03 20 AM" src="https://github.com/user-attachments/assets/9145dc13-14d0-440c-9d00-9a60f547bbc5" />
-
 # Download LSTNR
 
 ```git clone github.com/bwithe/LSNTR```
@@ -37,3 +34,5 @@ This is only for testing purposes, not intended for anything illegal. I was test
 
 2. Open link in web browser
     - `firefox 127.0.0.1:8000`
+
+<img width="1162" alt="Screenshot 2024-12-21 at 1 03 20 AM" src="https://github.com/user-attachments/assets/9145dc13-14d0-440c-9d00-9a60f547bbc5" />
