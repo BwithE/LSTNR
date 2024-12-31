@@ -62,7 +62,7 @@ def connect_to_server():
                     continue
                 
                 if command == "die":
-                    print("[!] Received die command. Shutting down...")
+                    print("[!] Received kill-session command. Shutting down...")
                     sock.close()
                     sys.exit(0)
                 
