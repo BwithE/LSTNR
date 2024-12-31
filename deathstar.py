@@ -225,7 +225,7 @@ async def read_root(request: Request):
     html_content = """
     <html>
         <head>
-            <title>DeathStar C2</title>
+            <title>LSTNR C2</title>
             <style>
                 body {
                     background-color: #1a1a1a;
@@ -468,7 +468,7 @@ async def read_root(request: Request):
             </script>
         </head>
         <body>
-            <div class="title-bar">DeathStar</div>
+            <div class="title-bar">LSTNR</div>
             <div class="content">
                 <table>
                     <tr>
