@@ -14,13 +14,12 @@ This is only for testing purposes, not intended for anything illegal. I was test
 
 1. Start LSTNR
     - `python3 lstnr.py -p <PORT_TO_LISTEN>`
-    - 
 <img width="666" alt="Screenshot 2025-01-03 at 6 36 01 PM" src="https://github.com/user-attachments/assets/9f1a5adb-3981-42cb-9855-3d847ec16c53" />
 
 2. Have CLIENT connect to LSTNR
     - Linux / MacOS
       - `bash client.sh -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
- 
+      - `python3 client.py -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
      <img width="736" alt="Screenshot 2025-01-03 at 6 34 33 PM" src="https://github.com/user-attachments/assets/6dc676a0-4af2-4eb3-b3df-8ecd42e274dd" />
    
     - Windows
