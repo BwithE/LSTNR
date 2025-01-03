@@ -15,8 +15,6 @@ This is only for testing purposes, not intended for anything illegal. I was test
 1. Start LSTNR
     - `python3 lstnr.py -p <PORT_TO_LISTEN>`
 
-<img width="509" alt="Screenshot 2024-12-30 at 8 17 42 PM" src="https://github.com/user-attachments/assets/375e9059-e448-412c-8677-cac252d1da63" />
-
 <img width="683" alt="Screenshot 2025-01-02 at 12 40 31 PM" src="https://github.com/user-attachments/assets/c7de903a-a981-4619-84a0-ecf7b7bea630" />
 
 2. Have CLIENT connect to LSTNR
