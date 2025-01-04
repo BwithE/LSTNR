@@ -20,9 +20,12 @@ This is only for testing purposes, not intended for anything illegal. I was test
     - Linux / MacOS
       - `bash client.sh -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
       - `python3 client.py -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
-     <img width="736" alt="Screenshot 2025-01-03 at 6 34 33 PM" src="https://github.com/user-attachments/assets/6dc676a0-4af2-4eb3-b3df-8ecd42e274dd" />
-   
+     
     - Windows
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
-     
+
+# Screenshot examples:
+
+<img width="736" alt="Screenshot 2025-01-03 at 6 34 33 PM" src="https://github.com/user-attachments/assets/6dc676a0-4af2-4eb3-b3df-8ecd42e274dd" />
+   
 <img width="666" alt="Screenshot 2025-01-03 at 6 35 10 PM" src="https://github.com/user-attachments/assets/68d38103-f333-4525-9a56-f82b1b09c7cc" />
