@@ -74,3 +74,4 @@ while true; do
     echo "[*] Reconnecting in $RECONNECT_DELAY seconds..."
     sleep $RECONNECT_DELAY
 done
+
