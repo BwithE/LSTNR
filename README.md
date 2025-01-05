@@ -27,6 +27,6 @@ This is only for testing purposes, not intended for anything illegal. I was test
 
 # Screenshot examples:
 
-<img width="736" alt="Screenshot 2025-01-03 at 6 34 33 PM" src="https://github.com/user-attachments/assets/6dc676a0-4af2-4eb3-b3df-8ecd42e274dd" />
-   
-<img width="666" alt="Screenshot 2025-01-03 at 6 35 10 PM" src="https://github.com/user-attachments/assets/68d38103-f333-4525-9a56-f82b1b09c7cc" />
+<img width="702" alt="Screenshot 2025-01-04 at 10 49 03 PM" src="https://github.com/user-attachments/assets/c3027a17-1340-4f64-ac6c-776046003fd9" />
+
+<img width="722" alt="Screenshot 2025-01-04 at 10 48 47 PM" src="https://github.com/user-attachments/assets/4725cf8a-4ab0-47b7-9d36-acf0e5256f99" />
