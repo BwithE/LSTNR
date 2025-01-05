@@ -31,3 +31,8 @@ This is only for testing purposes, not intended for anything illegal. I was test
 
 - LSTNR Server catches connection, and is able to manage remote device
 <img width="722" alt="Screenshot 2025-01-04 at 10 48 47 PM" src="https://github.com/user-attachments/assets/4725cf8a-4ab0-47b7-9d36-acf0e5256f99" />
+
+
+# TROUBLESHOOTING
+- If you are having issues getting the username and hostname, please use `conquer.py`
+    - `conquer.py` is the same script as `lstnr.py` however, it doesn't do anything fancy. It allows remote command execution, with responses.
