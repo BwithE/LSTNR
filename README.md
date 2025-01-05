@@ -1,3 +1,9 @@
+https://github.com/bwithe/lstnr?tab=readme-ov-file#lstnr
+https://github.com/bwithe/lstnr?tab=readme-ov-file#disclaimer
+https://github.com/bwithe/lstnr?tab=readme-ov-file#usage
+https://github.com/bwithe/lstnr?tab=readme-ov-file#screenshot-examples
+https://github.com/bwithe/lstnr?tab=readme-ov-file#troubleshooting
+
 # LSTNR
 Python server that receives shell connections from remote devices. 
 
