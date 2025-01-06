@@ -1,4 +1,4 @@
-# Windows Reverse Shell Client
+# Windows Client
 
 param(
     [Parameter(Mandatory=$true, HelpMessage="Server IP address to connect to")]
