@@ -47,6 +47,7 @@ cd lstnr
 # TROUBLESHOOTING
 - If you are having issues closing the LSTNR
 ```
-ps aux | grep lstnr
-kill -9 <PID>
+lstnr_pid=$(ps aux | grep lstnr | egrep -v 'grep' | awk '{print $2}')
+
+kill -9 $lstnr_pid
 ```
