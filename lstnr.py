@@ -128,7 +128,11 @@ async def input_prompt():
                     writer, reader = session['writer'], session['reader']
 
                     while True:
-                        cmd_input = await aioconsole.ainput(f"{session_id_to_connect}@{session['ip']} > ")  
+                        BLUE = "\033[94m"
+                        RESET = "\033[0m"
+                        cmd_input = await aioconsole.ainput(f"{BLUE}{session_id_to_connect}@{session['ip']} > {RESET}")
+
+                        #cmd_input = await aioconsole.ainput(f"{session_id_to_connect}@{session['ip']} > ")  
                         cmd = cmd_input.strip()
 
                         if not cmd:
