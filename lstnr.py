@@ -91,7 +91,14 @@ async def input_prompt():
     """ Handles user commands in the main loop. """
     global current_session_id
     while True:
-        command = await aioconsole.ainput("lstnr -> ")  
+        RED = "\033[91m"
+        BLUE = "\033[94m"
+        GREEN = "\033[92m"
+        YELLOW = "\033[93m"
+        RESET = "\033[0m"  # Reset to default color
+
+        command = await aioconsole.ainput(f"{BLUE}lstnr -> {RESET}") 
+        #command = await aioconsole.ainput("lstnr -> ")  
 
         if not command:
             continue
@@ -121,7 +128,7 @@ async def input_prompt():
                         BLUE = "\033[94m"
                         RESET = "\033[0m"
 
-                        cmd_input = await aioconsole.ainput(f"{BLUE}{session_id_to_connect}@{session['ip']} > {RESET}")
+                        cmd_input = await aioconsole.ainput(f"{RED}{session_id_to_connect}@{session['ip']} > {RESET}")
 
                         #cmd_input = await aioconsole.ainput(f"{session_id_to_connect}@{session['ip']} > ")  
                         cmd = cmd_input.strip()
