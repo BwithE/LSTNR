@@ -6,7 +6,7 @@ MAX_RETRIES=5
 RETRIES=0
 
 # Function to show usage
-usage() {
+usage () {
     echo "Usage: $0 -s <server_ip> -p <server_port>"
     exit 1
 }
@@ -85,3 +85,4 @@ done
 
 echo "[-] Maximum retry limit reached. Exiting..."
 exit 1
+     
